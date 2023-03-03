@@ -202,8 +202,9 @@ return (
             </div>
           </div>
           <div class="LidoFormTopContainerRight">
-            <div class="LidoFormTopContainerLeftContent2">
-              <span>Balance</span>
+            <div class="LidoAprContainer">
+              <div class="LidoAprTitle">Balance:</div>
+              <div class="LidoAprValue">0.00 rETH</div>
             </div>
           </div>
         </div>
@@ -302,22 +303,14 @@ return (
           }
         >
           <div class="LidoFormTopContainerLeft">
-            <div class="LidoFormTopContainerLeftContent1">
-              <div class="LidoFormTopContainerLeftContent1Container">
-                <span>Staked amount</span>
-              </div>
-            </div>
             <div class="LidoFormTopContainerLeftContent2">
-              <span>
-                {state.stakedBalance ?? (!state.sender ? "0" : "...")}
-                &nbsp;stETH
-              </span>
+              <span>Received rETH</span>
             </div>
           </div>
           <div class="LidoFormTopContainerRight">
             <div class="LidoAprContainer">
-              <div class="LidoAprTitle">Lido APR</div>
-              <div class="LidoAprValue">{state.lidoArp ?? "..."}%</div>
+              <div class="LidoAprTitle">Balance:</div>
+              <div class="LidoAprValue">0.00 rETH</div>
             </div>
           </div>
         </div>
