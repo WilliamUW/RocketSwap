@@ -203,7 +203,7 @@ return (
           </div>
           <div class="LidoFormTopContainerRight">
             <div class="LidoFormTopContainerLeftContent2">
-              <span>Balance: 0 ETH</span>
+              <span>Balance</span>
             </div>
           </div>
         </div>
@@ -238,7 +238,7 @@ return (
               class="LidoStakeFormInputContainerSpan2Input"
               value={state.strEther}
               onChange={(e) => State.update({ strEther: e.target.value })}
-              placeholder="Amount"
+              placeholder="0.00"
             />
           </span>
           <span
@@ -253,45 +253,21 @@ return (
               class="LidoStakeFormInputContainerSpan3Content"
               disabled={!state.sender}
             >
-              <span class="LidoStakeFormInputContainerSpan3Max">MAX</span>
+              <span class="LidoStakeFormInputContainerSpan3Max">
+                ≈ $0.00 USD
+              </span>
             </button>
           </span>
         </div>
-        {!!state.sender ? (
-          <button
-            class=""
-            onClick={() => submitEthers(state.strEther, state.sender)}
-          >
-            <span>Submit</span>
-          </button>
-        ) : (
-          <Web3Connect
-            className="LidoStakeFormSubmitContainer"
-            connectLabel="Connect with Web3"
-          />
-        )}
-
-        <div class="LidoFooterContainer">
-          {state.sender && (
-            <div class="LidoFooterRaw">
-              <div class="LidoFooterRawLeft">You will receive</div>
-              <div class="LidoFooterRawRight">${state.strEther ?? 0} stETH</div>
-            </div>
-          )}
-          <div class="LidoFooterRaw">
-            <div class="LidoFooterRawLeft">Exchange rate</div>
-            <div class="LidoFooterRawRight">1 ETH = 1 stETH</div>
-          </div>
-          <div class="LidoFooterRaw">
-            <div class="LidoFooterRawLeft">Transaction cost</div>
-            <div class="LidoFooterRawRight">{state.txCost}</div>
-          </div>
-          <div class="LidoFooterRaw">
-            <div class="LidoFooterRawLeft">Reward fee</div>
-            <div class="LidoFooterRawRight">10%</div>
-          </div>
-        </div>
       </div>
+
+      <button>
+        <img
+          src="https://www.w3schools.com/images/w3schools_green.jpg"
+          alt="W3Schools.com"
+        ></img>
+      </button>
+
       <div class="LidoForm">
         {state.sender && (
           <>
