@@ -392,12 +392,18 @@ return (
             <div class="LidoFooterRawRight">1 rETH = 1.06883 ETH</div>
           </div>
           <div class="LidoFooterRaw">
+            <div class="LidoFooterRawRight">≈0.75% Premium</div>
+          </div>
+          <div class="LidoFooterRaw">
             <div class="LidoFooterRawLeft">Average Return</div>
             <div class="LidoFooterRawRight">≈ 4.29% APR</div>
           </div>
           <div class="LidoFooterRaw">
             <div class="LidoFooterRawLeft">Transaction cost</div>
             <div class="LidoFooterRawRight">{state.txCost}</div>
+          </div>
+          <div class="LidoFooterRaw">
+            <div class="LidoFooterRawRight">@ 22 gwei Low</div>
           </div>
         </div>
       </div>
