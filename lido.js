@@ -122,7 +122,7 @@ if (state.txCost === undefined) {
 
   const txCost = Number(gasCostInEth) * Number(ethPriceInUsd);
 
-  State.update({ txCost: `$${txCost.toFixed(2)}` });
+  State.update({ txCost: "0.01040 ETH (≈ $16.27 USD)" });
 }
 
 // FETCH CSS
@@ -389,15 +389,15 @@ return (
           )}
           <div class="LidoFooterRaw">
             <div class="LidoFooterRawLeft">Exchange rate</div>
-            <div class="LidoFooterRawRight">1 ETH = 1 stETH</div>
+            <div class="LidoFooterRawRight">1 rETH = 1.06883 ETH</div>
+          </div>
+          <div class="LidoFooterRaw">
+            <div class="LidoFooterRawLeft">Average Return</div>
+            <div class="LidoFooterRawRight">≈ 4.29% APR</div>
           </div>
           <div class="LidoFooterRaw">
             <div class="LidoFooterRawLeft">Transaction cost</div>
             <div class="LidoFooterRawRight">{state.txCost}</div>
-          </div>
-          <div class="LidoFooterRaw">
-            <div class="LidoFooterRawLeft">Reward fee</div>
-            <div class="LidoFooterRawRight">10%</div>
           </div>
         </div>
       </div>
