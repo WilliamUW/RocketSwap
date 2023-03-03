@@ -204,7 +204,7 @@ return (
           <div class="LidoFormTopContainerRight">
             <div class="LidoAprContainer">
               <div class="LidoAprTitle">Balance:</div>
-              <div class="LidoAprValue">0.00 rETH</div>
+              <div class="LidoAprValue">0.00 ETH</div>
             </div>
           </div>
         </div>
@@ -345,7 +345,7 @@ return (
               class="LidoStakeFormInputContainerSpan2Input"
               value={state.strEther}
               onChange={(e) => State.update({ strEther: e.target.value })}
-              placeholder="Amount"
+              placeholder="0.00"
             />
           </span>
           <span
@@ -360,7 +360,9 @@ return (
               class="LidoStakeFormInputContainerSpan3Content"
               disabled={!state.sender}
             >
-              <span class="LidoStakeFormInputContainerSpan3Max">MAX</span>
+              <span class="LidoStakeFormInputContainerSpan3Max">
+                ≈ $0.00 USD
+              </span>
             </button>
           </span>
         </div>
