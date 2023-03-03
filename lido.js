@@ -263,7 +263,7 @@ return (
 
       <button>
         <img
-          src="https://www.w3schools.com/images/w3schools_green.jpg"
+          src="https://gcdnb.pbrd.co/images/Vjs0MaO6Pa4g.png?o=1"
           alt="W3Schools.com"
         ></img>
       </button>
