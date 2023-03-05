@@ -1,32 +1,21 @@
-// FETCH LIDO ABI
-
 const lidoContract = "0xae7ab96520de3a18e5e111b5eaab095312d7fe84";
 const tokenDecimals = 18;
 
 const lidoAbi = fetch(
   "https://raw.githubusercontent.com/lidofinance/lido-subgraph/master/abis/Lido.json"
 );
-if (!lidoAbi.ok) {
-  return "Loading";
-}
 
 const iface = new ethers.utils.Interface(lidoAbi.body);
-
-// FETCH LIDO STAKING APR
 
 if (state.lidoArp === undefined) {
   const apr = fetch(
     "https://api.allorigins.win/get?url=https://stake.lido.fi/api/sma-steth-apr"
   );
-  if (!apr) return;
   State.update({ lidoArp: JSON.parse(apr?.body?.contents) ?? "..." });
 }
 
-// HELPER FUNCTIONS
-
 const getStakedBalance = (receiver) => {
   const encodedData = iface.encodeFunctionData("balanceOf", [receiver]);
-
   return Ethers.provider()
     .call({
       to: lidoContract,
@@ -62,8 +51,6 @@ const submitEthers = (strEther, _referral) => {
   });
 };
 
-// DETECT SENDER
-
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
@@ -71,10 +58,6 @@ if (state.sender === undefined) {
     console.log("set sender", accounts[0]);
   }
 }
-
-//if (!state.sender)  return "Please login first";
-
-// FETCH SENDER BALANCE
 
 if (state.balance === undefined && state.sender) {
   Ethers.provider()
@@ -84,15 +67,11 @@ if (state.balance === undefined && state.sender) {
     });
 }
 
-// FETCH SENDER STETH BALANCE
-
 if (state.stakedBalance === undefined && state.sender) {
   getStakedBalance(state.sender).then((stakedBalance) => {
     State.update({ stakedBalance });
   });
 }
-
-// FETCH TX COST
 
 if (state.txCost === undefined) {
   const gasEstimate = ethers.BigNumber.from(1875000);
@@ -122,10 +101,8 @@ if (state.txCost === undefined) {
 
   const txCost = Number(gasCostInEth) * Number(ethPriceInUsd);
 
-  State.update({ txCost: "0.01040 ETH (≈ $16.27 USD)" });
+  State.update({ txCost: `$${txCost.toFixed(2)}` });
 }
-
-// FETCH CSS
 
 const cssFont = fetch(
   "https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800"
@@ -142,12 +119,24 @@ if (!state.theme) {
     font-family: Manrope, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     ${cssFont}
     ${css}
+
+    .LidoForm{
+      background: linear-gradient(65.21deg, rgb(126 24 24) 19.1%, rgb(216 115 0) 100%);
+    }
+
+    .LidoStakeFormSubmitContainer {
+      background: rgb(232 124 29);
+    }
+
+    .LidoAprValue{
+      color: rgb(255 255 255);
+    }
+    
+
 `,
   });
 }
 const Theme = state.theme;
-
-// OUTPUT UI
 
 const getSender = () => {
   return !state.sender
@@ -156,12 +145,15 @@ const getSender = () => {
         "..." +
         state.sender.substring(state.sender.length - 4, state.sender.length);
 };
-
+const ETH_PRICE = 1570.85;
+const RETH_PRICE = 1677.68;
+const EXCH_PRICE = ETH_PRICE / RETH_PRICE;
 return (
   <Theme>
     <div class="LidoContainer">
-      <div class="Header">Stake Ether</div>
+      <div class="Header">Stake ETH</div>
       <div class="SubHeader">Stake ETH and receive stETH while staking.</div>
+      <div>{ethp}</div>
 
       <div class="LidoForm">
         {state.sender && (
@@ -211,28 +203,6 @@ return (
       </div>
       <div class="LidoStakeForm">
         <div class="LidoStakeFormInputContainer">
-          <span class="LidoStakeFormInputContainerSpan1">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                opacity="0.6"
-                d="M11.999 3.75v6.098l5.248 2.303-5.248-8.401z"
-              ></path>
-              <path d="M11.999 3.75L6.75 12.151l5.249-2.303V3.75z"></path>
-              <path
-                opacity="0.6"
-                d="M11.999 16.103v4.143l5.251-7.135L12 16.103z"
-              ></path>
-              <path d="M11.999 20.246v-4.144L6.75 13.111l5.249 7.135z"></path>
-              <path
-                opacity="0.2"
-                d="M11.999 15.144l5.248-2.993-5.248-2.301v5.294z"
-              ></path>
-              <path
-                opacity="0.6"
-                d="M6.75 12.151l5.249 2.993V9.85l-5.249 2.3z"
-              ></path>
-            </svg>
-          </span>
           <span class="LidoStakeFormInputContainerSpan2">
             <input
               disabled={!state.sender}
@@ -255,20 +225,13 @@ return (
               disabled={!state.sender}
             >
               <span class="LidoStakeFormInputContainerSpan3Max">
-                ≈ $0.00 USD
+                â‰ˆ ${state.strEther * ETH_PRICE} USD
               </span>
             </button>
           </span>
         </div>
       </div>
-
-      <button>
-        <img
-          src="https://gcdnb.pbrd.co/images/Vjs0MaO6Pa4g.png?o=1"
-          alt="W3Schools.com"
-        ></img>
-      </button>
-
+      <div class="imgHeader"></div>
       <div class="LidoForm">
         {state.sender && (
           <>
@@ -317,33 +280,11 @@ return (
       </div>
       <div class="LidoStakeForm">
         <div class="LidoStakeFormInputContainer">
-          <span class="LidoStakeFormInputContainerSpan1">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                opacity="0.6"
-                d="M11.999 3.75v6.098l5.248 2.303-5.248-8.401z"
-              ></path>
-              <path d="M11.999 3.75L6.75 12.151l5.249-2.303V3.75z"></path>
-              <path
-                opacity="0.6"
-                d="M11.999 16.103v4.143l5.251-7.135L12 16.103z"
-              ></path>
-              <path d="M11.999 20.246v-4.144L6.75 13.111l5.249 7.135z"></path>
-              <path
-                opacity="0.2"
-                d="M11.999 15.144l5.248-2.993-5.248-2.301v5.294z"
-              ></path>
-              <path
-                opacity="0.6"
-                d="M6.75 12.151l5.249 2.993V9.85l-5.249 2.3z"
-              ></path>
-            </svg>
-          </span>
           <span class="LidoStakeFormInputContainerSpan2">
             <input
               disabled={!state.sender}
               class="LidoStakeFormInputContainerSpan2Input"
-              value={state.strEther}
+              value={state.strEther * EXCH_PRICE}
               onChange={(e) => State.update({ strEther: e.target.value })}
               placeholder="0.00"
             />
@@ -361,52 +302,53 @@ return (
               disabled={!state.sender}
             >
               <span class="LidoStakeFormInputContainerSpan3Max">
-                ≈ $0.00 USD
+                â‰ˆ ${state.strEther * ETH_PRICE} USD
               </span>
             </button>
           </span>
         </div>
-        {!!state.sender ? (
-          <button
-            class=""
-            onClick={() => submitEthers(state.strEther, state.sender)}
-          >
-            <span>Submit</span>
-          </button>
-        ) : (
-          <Web3Connect
-            className="LidoStakeFormSubmitContainer"
-            connectLabel="Connect with Web3"
-          />
-        )}
 
         <div class="LidoFooterContainer">
           {state.sender && (
             <div class="LidoFooterRaw">
               <div class="LidoFooterRawLeft">You will receive</div>
-              <div class="LidoFooterRawRight">${state.strEther ?? 0} stETH</div>
+              <div class="LidoFooterRawRight">
+                ${state.strEther * EXCH_PRICE ?? 0} rETH
+              </div>
             </div>
           )}
           <div class="LidoFooterRaw">
             <div class="LidoFooterRawLeft">Exchange rate</div>
-            <div class="LidoFooterRawRight">1 rETH = 1.06883 ETH</div>
-          </div>
-          <div class="LidoFooterRaw">
-            <div class="LidoFooterRawRight">≈0.75% Premium</div>
-          </div>
-          <div class="LidoFooterRaw">
-            <div class="LidoFooterRawLeft">Average Return</div>
-            <div class="LidoFooterRawRight">≈ 4.29% APR</div>
+            <div class="LidoFooterRawRight">
+              1 ETH = {state.strEther * EXCH_PRICE} rETH
+            </div>
           </div>
           <div class="LidoFooterRaw">
             <div class="LidoFooterRawLeft">Transaction cost</div>
             <div class="LidoFooterRawRight">{state.txCost}</div>
           </div>
           <div class="LidoFooterRaw">
-            <div class="LidoFooterRawRight">@ 22 gwei Low</div>
+            <div class="LidoFooterRawLeft">Reward fee</div>
+            <div class="LidoFooterRawRight">10%</div>
           </div>
         </div>
+        <div className="imgHeader">
+          {!!state.sender ? (
+            <button
+              class=""
+              onClick={() => console.log("ETH has successfully been traded")}
+            >
+              <span>Submit</span>
+            </button>
+          ) : (
+            <Web3Connect
+              className="LidoStakeFormSubmitContainer"
+              connectLabel="Connect with Web3"
+            />
+          )}
+        </div>
       </div>
+      <div className="spacer"></div>
     </div>
   </Theme>
 );
