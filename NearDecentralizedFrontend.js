@@ -145,9 +145,11 @@ const getSender = () => {
         "..." +
         state.sender.substring(state.sender.length - 4, state.sender.length);
 };
+
 const ETH_PRICE = 1570.85;
 const RETH_PRICE = 1677.68;
 const EXCH_PRICE = ETH_PRICE / RETH_PRICE;
+
 return (
   <Theme>
     <div class="LidoContainer">
