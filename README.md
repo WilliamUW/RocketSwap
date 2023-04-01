@@ -1,6 +1,6 @@
 # ETHDenver2023
 
-Building a dapp on NEAR's new frontend with BOS.GG, integrate with rocketpool to offer quick swaps on ethereum
+Using the Near Blockchain Operating System to build a decentralized widget with BOS.GG, integrated with RocketPool to offer quick swaps on Ethereum
 
 https://bos.gg/#/a_liutiev.near/widget/ETHDenver2023
 
